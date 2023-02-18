@@ -2,6 +2,7 @@ package com.vimalcvs.materialrating;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -54,7 +55,7 @@ public class MaterialFeedback extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.lib_material_fragment_feedback, container);
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             rating = savedInstanceState.getFloat(RATING_KEY);
         }
 
@@ -66,7 +67,16 @@ public class MaterialFeedback extends DialogFragment {
         deviceInfo += "\n OS Version: " + System.getProperty("os.version") + "(" + android.os.Build.VERSION.INCREMENTAL + ")";
         deviceInfo += "\n OS API Level: " + android.os.Build.VERSION.SDK_INT;
         deviceInfo += "\n Device: " + android.os.Build.DEVICE;
-        deviceInfo += "\n Model (and Product): " + android.os.Build.MODEL + " ("+ android.os.Build.PRODUCT + ")";
+        deviceInfo += "\n Model (and Product): " + android.os.Build.MODEL + " (" + android.os.Build.PRODUCT + ")";
+
+
+        try {
+            PackageInfo pInfo = requireActivity().getPackageManager().getPackageInfo(requireActivity().getPackageName(), 0);
+            deviceInfo += String.format("\n Version app: %s(%s)",pInfo.versionCode,pInfo.versionName);
+            // Use the version and versionCode as needed
+        } catch (Exception e) {
+        }
+
 
 
         TextInputEditText etFeedback = view.findViewById(R.id.et_feedback);
@@ -74,17 +84,17 @@ public class MaterialFeedback extends DialogFragment {
 
         Button bt_feedbackSend = view.findViewById(R.id.bt_feedbackSend);
         bt_feedbackSend.setOnClickListener(send -> {
-            if(send.getId() == R.id.bt_feedbackSend && (feedback != null ? feedback.length() : 0) > 0 ){
+            if (send.getId() == R.id.bt_feedbackSend && (feedback != null ? feedback.length() : 0) > 0) {
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                 intent.setData(Uri.parse("mailto:"));
                 intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
-                intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name)+" App Rating...!");
-                intent.putExtra(Intent.EXTRA_TEXT, "Stars: "+rating+"\n\nFeedback: "+feedback+"\n\n"+deviceInfo);
-                if (requireActivity().getPackageManager().resolveActivity(intent,0) != null) {
+                intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name) + " App Rating...!");
+                intent.putExtra(Intent.EXTRA_TEXT, "Stars: " + rating + "\n\nFeedback: " + feedback + "\n\n" + deviceInfo);
+                if (requireActivity().getPackageManager().resolveActivity(intent, 0) != null) {
                     startActivity(intent);
                 }
 
-            } else if(send.getId() == R.id.bt_feedbackSend){
+            } else if (send.getId() == R.id.bt_feedbackSend) {
                 text_input = view.findViewById(R.id.text_input);
                 text_input.setError("Please enter at least 10 characters.");
                 return;
@@ -94,7 +104,8 @@ public class MaterialFeedback extends DialogFragment {
 
         return view;
     }
-    public void setRating(float rating){
+
+    public void setRating(float rating) {
         this.rating = rating;
     }
 }
