@@ -53,7 +53,7 @@ Use the dialog as it is `setOnClickListener()` Just like <a href="https://github
 	
 	   //Rating
             FragmentManager fragmentManager = getSupportFragmentManager();
-            MaterialRating feedBackDialog = new MaterialRating();
+            MaterialRating feedBackDialog = new MaterialRating("technovimalin@gmail.com");
             feedBackDialog.show(fragmentManager, "rating");
 	    
 	    
