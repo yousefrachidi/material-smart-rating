@@ -39,7 +39,7 @@ Step 2. Add the dependency
 ```
 	dependencies {
 	
-	    implementation 'com.github.vimalcvs:Material-Smart-Rating:6.0.0'
+	    implementation 'com.github.yousefrachidi:Material-Smart-Rating:6.0.0'
 
 	}
 ```
@@ -84,7 +84,7 @@ Author: [Vimal K. Vishwakarma](https://github.com/vimalcvs)
 
 # License
 ```
-Copyright (C) 2022 Code Mr. Vimal K. Vishwakarma
+Copyright (C) 2022 Code Mr. Youssef
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
