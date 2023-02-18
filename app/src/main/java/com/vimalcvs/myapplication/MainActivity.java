@@ -11,6 +11,8 @@ import com.vimalcvs.materialrating.MaterialRating;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String email = "technovimalin@gmail.com";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         Button rating_app = findViewById(R.id.rating_app);
         rating_app.setOnClickListener(v -> {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            MaterialRating feedBackDialog = new MaterialRating();
+            MaterialRating feedBackDialog = new MaterialRating(email);
             feedBackDialog.show(fragmentManager, "rating");
         });
 
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         Button feedback_app = findViewById(R.id.feedback_app);
         feedback_app.setOnClickListener(v -> {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            MaterialFeedback materialFeedback = new MaterialFeedback("technovimalin@gmail.com");
+            MaterialFeedback materialFeedback = new MaterialFeedback(email);
             materialFeedback.show(fragmentManager, "feedback");
         });
     }

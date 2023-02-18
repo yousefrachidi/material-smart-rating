@@ -24,7 +24,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 public class MaterialRating extends DialogFragment implements RatingBar.OnRatingBarChangeListener {
 
     public static final String KEY = "fragment_rate";
+    public static String email = "null";
     private View theDialogView;
+
+    public MaterialRating(String email) {
+        this.email = email;
+    }
 
     @NonNull
     @Override
@@ -71,7 +76,7 @@ public class MaterialRating extends DialogFragment implements RatingBar.OnRating
             }
             dismiss();
         } else if (v > 0) {
-            DialogManager.showMaterialFeedback(getActivity(), v,"null");
+            DialogManager.showMaterialFeedback(getActivity(), v,email);
             dismiss();
         }
     }
