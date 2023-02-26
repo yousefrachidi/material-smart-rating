@@ -32,5 +32,6 @@ public class MainActivity extends AppCompatActivity {
             MaterialFeedback materialFeedback = new MaterialFeedback(email);
             materialFeedback.show(fragmentManager, "feedback");
         });
+
     }
 }

@@ -50,34 +50,40 @@ public class MaterialRating extends DialogFragment implements RatingBar.OnRating
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.lib_material_fragment_rating, container);
 
+        RatingBar bt_ratingBar = view.findViewById(R.id.bt_ratingBar);
+        bt_ratingBar.setOnRatingBarChangeListener(this);
+
         Button bt_maybeLater = view.findViewById(R.id.bt_maybeLater);
         bt_maybeLater.setOnClickListener(cancelButton -> dismiss());
 
         Button bt_ratingSend = view.findViewById(R.id.bt_ratingSend);
-        bt_ratingSend.setOnClickListener(send -> Toast.makeText( getActivity(), "Please select 5 star rating!", Toast.LENGTH_SHORT).show());
-
-        RatingBar bt_ratingBar = view.findViewById(R.id.bt_ratingBar);
-        bt_ratingBar.setOnRatingBarChangeListener(this);
-
+        bt_ratingSend.setOnClickListener(view1 -> {
+            if (bt_ratingBar.getRating() == 5) {
+                String packageName = requireActivity().getPackageName();
+                Intent intent;
+                try {
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName));
+                    startActivity(intent);
+                } catch (ActivityNotFoundException activityNotFoundException) {
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName));
+                    startActivity(intent);
+                }
+            } else {
+                DialogManager.showMaterialFeedback(getActivity(), bt_ratingBar.getRating(), email);
+            }
+            dismiss();
+        });
         return view;
     }
 
     @Override
     public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-        if (v >= 5) {
-            String packageName = requireActivity().getPackageName();
-            Intent intent;
-            try {
-                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName));
-                startActivity(intent);
-            } catch (ActivityNotFoundException activityNotFoundException) {
-                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName));
-                startActivity(intent);
-            }
-            dismiss();
-        } else if (v > 0) {
-            DialogManager.showMaterialFeedback(getActivity(), v,email);
-            dismiss();
-        }
+//        if (v >= 5) {
+//
+//
+//        } else if (v > 0) {
+//            DialogManager.showMaterialFeedback(getActivity(), v,email);
+//            dismiss();
+//        }
     }
 }
